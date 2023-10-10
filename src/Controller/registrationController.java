@@ -51,7 +51,7 @@ public class registrationController {
 	
     
     @FXML 
-    public void addtoDatabase(ActionEvent event) {
+    public void addtoDatabase(ActionEvent event) throws SQLException {
     	// Retrieve entered username, password, firstname and lastname
     	boolean result;
     	try {
@@ -79,15 +79,10 @@ public class registrationController {
 			 UserExistsAlert();
 
 			 setEmptyFields();
-		}catch(SQLException e ) {
-			e.printStackTrace();
-//			UsernameRegistration.setText("");
-// 			firstName.setText("");
-// 			lastName.setText("");
-// 			passwordR.setText("");
-			setEmptyFields();
-			
 		}
+    	finally {
+    		setEmptyFields();
+    	}
     	}
     
     public void movetoLoginPage() {

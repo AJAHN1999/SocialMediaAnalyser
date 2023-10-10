@@ -3,6 +3,8 @@ package Controller;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.sql.SQLException;
+
 import Database.dbutility;
 import View.dashboardScene;
 import View.registrationPageScene;
@@ -40,7 +42,7 @@ public class loginPageController {
 	}
 	
 	@FXML
-	public void loginUser(ActionEvent event) {
+	public void loginUser(ActionEvent event) throws SQLException {
 		
 		// Retrieve entered username and password
         String userName = username.getText();
