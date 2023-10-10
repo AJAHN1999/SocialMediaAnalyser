@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.dashboardController">
+   <children>
+      <Label fx:id="welcomeLabel" alignment="CENTER" layoutX="8.0" layoutY="14.0" prefHeight="50.0" prefWidth="400.0" text="Welcome">
+         <font>
+            <Font name="Arial Bold" size="35.0" />
+         </font>
+      </Label>
+      <Button fx:id="editProfile" layoutX="415.0" layoutY="26.0" mnemonicParsing="false" onAction="#setProfile" text="Edit Profile">
+         <font>
+            <Font name="Bell MT Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="addpost" layoutX="50.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="105.0" text="Add Post" />
+      <Button fx:id="retrievepost" layoutX="202.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="95.0" text="Retrieve Post" />
+      <Button fx:id="logout" layoutX="147.0" layoutY="187.0" mnemonicParsing="false" onAction="#setLoginPage" text="Logout" />
+   </children>
+</AnchorPane>

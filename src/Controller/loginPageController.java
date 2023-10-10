@@ -4,6 +4,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import Database.dbutility;
+import View.dashboardScene;
+import View.registrationPageScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,6 +28,9 @@ public class loginPageController {
 	private Button loginButton;
 	
 	@FXML
+	private Button registerButton;
+	
+	@FXML
 	private void initialize() {
 	
 	}
@@ -42,13 +47,12 @@ public class loginPageController {
         String Password = password.getText();
         System.out.println(userName);
         System.out.println(Password);
-		
-		if(dbutility.authenticate(userName, Password)) {
+		if(dbutility.authenticate(userName, Password) && !(userName.isEmpty()|| Password.isEmpty())) {
 			// login successful in the login page
 			System.out.println("reached successful");
 			SuccesfullloginAlert();
 			// Move to next scene(dashboard)
-			
+			movetoDashboard(userName);
 			
 		}
 		else {
@@ -57,12 +61,30 @@ public class loginPageController {
 			//try again
 			username.setText("");
 			password.setText("");
-			System.out.println("accessed to unsucessful alert");
-			//move to register page!
-			
 		}
 	}
+	
+	@FXML
+	public void setRegScene(ActionEvent event) {
+		System.out.println("reached setReg");
+		registrationPageScene registrationScene = new registrationPageScene(primaryStage);
+		primaryStage.setTitle(registrationScene.getTitle());
+		primaryStage.setScene(registrationScene.getScene());
 		
+		primaryStage.show();
+	}
+	
+	public void movetoDashboard(String username) {
+		dashboardScene dashboardScene = new dashboardScene(primaryStage);
+		primaryStage.setTitle(dashboardScene.getTitle());
+		primaryStage.setScene(dashboardScene.getScene(username));
+		
+		primaryStage.show();
+	}
+	
+	
+	
+	
 	public static void SuccesfullloginAlert() {
 		Alert successAlert = new Alert(AlertType.INFORMATION);
 		successAlert.setTitle("Login Successful");
@@ -79,16 +101,7 @@ public class loginPageController {
 		errorAlert.showAndWait();
 	}
 	
-
-//	@FXML
-//	public void switchSceneHandler(ActionEvent event) {
-//		
-//		SecondScene secondScene = new SecondScene(primaryStage);
-//		primaryStage.setTitle(secondScene.getTitle());
-//		primaryStage.setScene(secondScene.getScene());
-//
-//		primaryStage.show();
-//		
-//	}
 	
 }
+
+
