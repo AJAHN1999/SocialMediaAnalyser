@@ -44,7 +44,7 @@ public class dashboardController {
 
 
 	public void setwelcomeLabel(users userfromLogin) {
-		welcomeLabel.setText(String.format("welcome %s!", userfromLogin.getUsername()));
+		welcomeLabel.setText(String.format("welcome %s "+ "%s!", userfromLogin.getFirstname(),userfromLogin.getLastname()));
 		user = userfromLogin;
 	}
 

@@ -52,21 +52,6 @@ public class loginPageController {
         	}
         System.out.println(userName);
         System.out.println(Password);
-//		if(dbutility.authenticate(userName, Password) && !(userName.isEmpty()|| Password.isEmpty())) {
-//			// login successful in the login page
-//			System.out.println("reached successful");
-//			alerts.SuccesfullloginAlert();
-//			// Move to next scene(dashboard)
-//			movetoDashboard(userName);
-//			
-//		}
-//		else {
-//			// login unsuccessful in login page
-//			alerts.UnsuccessfulAlert();
-//			//try again
-//			username.setText("");
-//			password.setText("");
-//		}
         users user = dbutility.authenticate(userName, Password);
         if(user!=null) {
         	movetoDashboard(user);

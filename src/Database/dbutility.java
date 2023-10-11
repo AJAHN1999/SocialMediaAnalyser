@@ -24,7 +24,7 @@ public class dbutility {
 			// Execute the query and retrieve results
 			ResultSet resultSet = preparedStatement.executeQuery();
 			String usernameR = resultSet.getString("username");
-			String firstnameR = resultSet.getString("username");
+			String firstnameR = resultSet.getString("firstname");
 			String lastnameR = resultSet.getString("lastname");
 			String passwordR = resultSet.getString("password");
 			users user = new users(usernameR,firstnameR, lastnameR, passwordR);//retrieveing a user object
@@ -64,15 +64,7 @@ public class dbutility {
 			return false;
 			}
 			else {preparedStatement.executeUpdate();con.close();return true; }
-//			if (rowsAffected !=1) {
-//				//throw new UsernameExistsException();
-//				con.close();
-//				return false;
-//			}
-//			else {
-//				con.close();
-//				return true;
-//			}
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 			con.close();
@@ -86,7 +78,7 @@ public class dbutility {
 
 
 
-	public static boolean updateUser(users user,String newname,String firstname, String lastname, String password)throws UsernameExistsException,SQLException{
+	public static users updateUser(users user,String newname,String firstname, String lastname, String password)throws UsernameExistsException,SQLException{
 		//String usernameDB = username(username);
 		String insertQuery = "UPDATE users SET username = ?, firstname = ?,lastname = ? , password =? WHERE username = ? ";
 		String insertUserQuery = "UPDATE users SET  firstname = ?,lastname = ? , password =? WHERE username = ? ";
@@ -103,8 +95,10 @@ public class dbutility {
 				preparedStatement.setString(5, user.getUsername());
 				int rowsAffected = preparedStatement.executeUpdate();
 				System.out.println(rowsAffected);
+				users userNew = retrieveUser(newname, firstname, lastname, password);			
 				con.close();
-				return true;
+				//return true;
+				return userNew;
 			}
 			else if(newname.equals(user.getUsername())) {
 				System.out.println("reached elseif loggedin name == username");	
@@ -116,25 +110,29 @@ public class dbutility {
 				int rowsAffected = preparedStatement.executeUpdate();
 				System.out.println(rowsAffected);
 				con.close();
-				return true;
+				users userNew = retrieveUser(user.getUsername(),firstname,lastname,password);
+				return userNew;
+				//return true;
 			}
 			else {
+				
 				con.close();
 				throw new UsernameExistsException();	
-				//return false;
-				
+				//return false;			
 			}
 		}
 		catch(UsernameExistsException e) {
-			e.printStackTrace();
-			alerts.UserExistsAlert();
+			e.printStackTrace();		
+			alerts.UserExistsAlert();	
 			con.close();
-			return false;
+			return null;
+			//return false;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 			con.close();
-			return false;
+			//return false;
+			return null;
 		}finally {
 			con.close();}
 	}
@@ -166,7 +164,28 @@ public class dbutility {
 
 
 	}
+	
+	public static users retrieveUser(String username , String firstname, String lastname, String password) throws SQLException {
+		String retrieveQuery = "SELECT username,firstname,lastname,password  FROM users WHERE username = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+		PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
+		preparedStatement.setString(1, username);
+		ResultSet resultset = preparedStatement.executeQuery();
+		if(resultset.next())
+		{		return new users(resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
+	}
+		else {
+			return null;}
+		}catch(SQLException e) {
+		e.printStackTrace();
+		con.close();
+		return null;}
+		finally {con.close();}
+	}
 }
+		
+	
 
 
 

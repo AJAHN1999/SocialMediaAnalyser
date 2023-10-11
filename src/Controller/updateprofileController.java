@@ -60,7 +60,7 @@ public class updateprofileController {
 	@FXML 
 	public void updateUser(ActionEvent event) {
 		// Retrieve entered username, password, firstname and lastname
-		boolean result;
+		//boolean result;
 		
 		try {
 			String userName = usernameUF.getText();
@@ -73,11 +73,11 @@ public class updateprofileController {
 			}
 			else {
 				
-				result = dbutility.updateUser(usernamefromDashboard,userName,firstname,lastname,password);
-				if (result == true){
+				users userafterUpdate = dbutility.updateUser(usernamefromDashboard,userName,firstname,lastname,password);
+				if (userafterUpdate!= null){
 					alerts.userUpdatedAlert();
 					//change scene to dashboard
-					usernamefromDashboard.setUsername(userName);
+					usernamefromDashboard = userafterUpdate;
 					movetoDashboardPage();
 				}
 				else {
@@ -86,7 +86,7 @@ public class updateprofileController {
 				// if result is true then showupdate alert and move back to dashboard.
 			}
 		}catch(emptyFieldException e) {
-			result = false;
+			//result = false;
 			alerts.emptyFieldsAlert();
 		} catch (UsernameExistsException e) {
 			// TODO Auto-generated catch block
