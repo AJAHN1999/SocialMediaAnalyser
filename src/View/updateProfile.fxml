@@ -71,6 +71,11 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <Button layoutX="217.0" layoutY="266.0" mnemonicParsing="false" onAction="#updateUser" text="Update" />
+      <Button layoutX="252.0" layoutY="266.0" mnemonicParsing="false" onAction="#updateUser" text="Update">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Button>
+      <Button layoutX="156.0" layoutY="266.0" mnemonicParsing="false" onAction="#movetoDashboardPage" text="&lt; back" />
    </children>
 </AnchorPane>

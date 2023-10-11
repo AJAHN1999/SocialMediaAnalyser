@@ -1,8 +1,5 @@
 package Controller;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import java.sql.SQLException;
 
 import Database.dbutility;
@@ -14,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import alerts.alerts;
 
 public class loginPageController {
 	
@@ -52,14 +49,14 @@ public class loginPageController {
 		if(dbutility.authenticate(userName, Password) && !(userName.isEmpty()|| Password.isEmpty())) {
 			// login successful in the login page
 			System.out.println("reached successful");
-			SuccesfullloginAlert();
+			alerts.SuccesfullloginAlert();
 			// Move to next scene(dashboard)
 			movetoDashboard(userName);
 			
 		}
 		else {
 			// login unsuccessful in login page
-			UnsuccessfulAlert();
+			alerts.UnsuccessfulAlert();
 			//try again
 			username.setText("");
 			password.setText("");
@@ -87,21 +84,6 @@ public class loginPageController {
 	
 	
 	
-	public static void SuccesfullloginAlert() {
-		Alert successAlert = new Alert(AlertType.INFORMATION);
-		successAlert.setTitle("Login Successful");
-		successAlert.setHeaderText(null);
-		successAlert.setContentText("Welcome to the dashboard!");
-		successAlert.showAndWait();
-	}
-	
-	public static void UnsuccessfulAlert() {
-		Alert errorAlert = new Alert(AlertType.ERROR);
-		errorAlert.setTitle("Login Failed");
-		errorAlert.setHeaderText(null);
-		errorAlert.setContentText("Invalid credentials. Please try again.");
-		errorAlert.showAndWait();
-	}
 	
 	
 }

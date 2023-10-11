@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import alerts.alerts;
 
 public class updateprofileController {
 
@@ -36,6 +36,8 @@ public class updateprofileController {
 
 	private String loggedinName;
 
+	private String newName;//name if changes have been made to the update username successfully
+
 
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -48,7 +50,7 @@ public class updateprofileController {
 		passwordUF.setText("");
 	}
 
-	
+
 	public void  sendusername(String username) {
 		loggedinName = username;	
 	}
@@ -69,73 +71,41 @@ public class updateprofileController {
 			else {
 				result = dbutility.updateUser(loggedinName, userName, firstname, lastname, password);
 				if (result == true){
-					userUpdatedAlert();
+					newName = userName;
+					alerts.userUpdatedAlert();
 					//change scene to dashboard
-					//movetoDashboardPage();
+					movetoDashboardPage();
 				}
 				else {
-					UserExistsAlert();
+					alerts.UserExistsAlert();
 				}
 				// if result is true then showupdate alert and move back to dashboard.
 			}
 		}catch(emptyFieldException e) {
 			result = false;
-			emptyFieldsAlert();
+			alerts.emptyFieldsAlert();
+			newName = loggedinName;
 		} catch (customExceptions.UsernameExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			UserExistsAlert();
-			//      		 UsernameRegistration.setText("");
-			//  			 firstName.setText("");
-			//  			 lastName.setText("");
-			//  			 passwordR.setText("");
+			alerts.UserExistsAlert();
+
 			setEmptyFields();
 		}catch(SQLException e ) {
 			e.printStackTrace();
-			//			UsernameRegistration.setText("");
-			// 			firstName.setText("");
-			// 			lastName.setText("");
-			// 			passwordR.setText("");
 			setEmptyFields();
 		}
 	}
 
-	public void movetoLoginPage() {
-		loginPageScene loginScene = new loginPageScene(primaryStage);
-		primaryStage.setTitle(loginScene.getTitle());
-		primaryStage.setScene(loginScene.getScene());
+
+	@FXML
+	public void movetoDashboardPage() {
+		dashboardScene dashboardScene = new dashboardScene(primaryStage);
+		primaryStage.setTitle(dashboardScene.getTitle());
+		primaryStage.setScene(dashboardScene.getScene(newName));
 
 		primaryStage.show();
 	}
 
-	public static void showUserAddedAlert() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("User Added");
-		alert.setHeaderText(null);
-		alert.setContentText("User has been successfully added to the database.");
-		alert.showAndWait();
-	}
 
-	public static void UserExistsAlert() {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("User Already Exists");
-		alert.setHeaderText(null);
-		alert.setContentText("A user with the same username already exists.");
-		alert.showAndWait();
-	}
-	public static void emptyFieldsAlert() {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Empty Fields Present");
-		alert.setHeaderText(null);
-		alert.setContentText("You may not have entered one or many fields");
-		alert.showAndWait();
-	}
-	
-	public static void userUpdatedAlert() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("User Updated");
-		alert.setHeaderText(null);
-		alert.setContentText("Changes have been made successfully");
-		alert.showAndWait();
-}
 }

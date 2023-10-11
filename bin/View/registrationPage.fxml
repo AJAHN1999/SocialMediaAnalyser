@@ -86,7 +86,12 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <Button layoutX="274.0" layoutY="272.0" mnemonicParsing="false" onAction="#addtoDatabase" text="Register">
+      <Button layoutX="336.0" layoutY="270.0" mnemonicParsing="false" onAction="#addtoDatabase" text="Register">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="219.0" layoutY="270.0" mnemonicParsing="false" onAction="#movetoLogin" text="&lt; Back">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
