@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Model.users;
 import View.loginPageScene;
 import View.updateProfileScene;
 import javafx.event.ActionEvent;
@@ -30,7 +31,7 @@ public class dashboardController {
 	@FXML
 	private Button logout;
 
-	private String username;
+	private users user;
 
 	@FXML
 	private void initialize() {
@@ -42,9 +43,9 @@ public class dashboardController {
 	}
 
 
-	public void setwelcomeLabel(String username) {
-		this.username = username;
-		welcomeLabel.setText(String.format("welcome %s!", username));
+	public void setwelcomeLabel(users userfromLogin) {
+		welcomeLabel.setText(String.format("welcome %s!", userfromLogin.getUsername()));
+		user = userfromLogin;
 	}
 
 	@FXML 
@@ -60,7 +61,7 @@ public class dashboardController {
 	private void setProfile(ActionEvent event) {
 		updateProfileScene profileupdateScene = new updateProfileScene(primaryStage);
 		primaryStage.setTitle(profileupdateScene.getTitle());
-		primaryStage.setScene(profileupdateScene.getScene(username));
+		primaryStage.setScene(profileupdateScene.getScene(user));
 		primaryStage.show();
 	}
 

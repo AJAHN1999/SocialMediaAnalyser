@@ -5,6 +5,7 @@ import java.io.IOException;
 import Controller.dashboardController;
 import Controller.loginPageController;
 import Controller.updateprofileController;
+import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +27,7 @@ public class dashboardScene {
 		return "Welcome to your dashboard";
 	}
 	
-	public Scene getScene(String username) {
+	public Scene getScene(users user) {
 		
 		if(scene != null) {
 			return scene;
@@ -45,7 +46,7 @@ public class dashboardScene {
 		
 		dashboardController controller = loader.getController();
 		controller.setPrimaryStage(primaryStage);
-		controller.setwelcomeLabel(username);
+		controller.setwelcomeLabel(user);
 
 		
 		// create a scene

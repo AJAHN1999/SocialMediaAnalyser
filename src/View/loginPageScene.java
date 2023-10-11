@@ -30,19 +30,19 @@ public class loginPageScene {
 			return scene;
 		}
 		
-		// load FXML
+		// load FXML //loades the fxml page
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
 				
-		// load the FXML
+		// load the FXML //loads the parent node using loader object
 		Parent parentNode = null;
 		try {
 			parentNode = loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		//creating an object of LoginPageController class and using the loader object to get the control
 		loginPageController controller = loader.getController();
-		controller.setPrimaryStage(primaryStage);
+		controller.setPrimaryStage(primaryStage);//
 
 		
 		// create a scene

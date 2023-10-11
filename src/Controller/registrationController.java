@@ -2,7 +2,9 @@ package Controller;
 
 import java.sql.SQLException;
 import Database.dbutility;
+import Model.users;
 import View.loginPageScene;
+import customExceptions.UsernameExistsException;
 import customExceptions.emptyFieldException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,11 +61,13 @@ public class registrationController {
 				throw new emptyFieldException();
 			}
 			else {
-				result = dbutility.addUser(userName, firstname, lastname, password);
+				users user = new users(userName,firstname,lastname,password);
+				result = dbutility.addUser(user);
 				if (result == true){
 					alerts.showUserAddedAlert();
 					//change scene to dashboard
 					movetoLoginPage();}
+				else {throw new UsernameExistsException();}
 			}
 		}catch(emptyFieldException e) {
 			result = false;

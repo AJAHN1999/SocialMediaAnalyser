@@ -6,9 +6,11 @@ import javafx.scene.control.Alert.AlertType;
 import java.sql.SQLException;
 
 import Database.dbutility;
+import Model.users;
 import View.dashboardScene;
 import View.loginPageScene;
 import View.registrationPageScene;
+import customExceptions.UsernameExistsException;
 import customExceptions.emptyFieldException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,9 +36,9 @@ public class updateprofileController {
 	@FXML
 	private TextField passwordUF;
 
-	private String loggedinName;
+	private users usernamefromDashboard;
 
-	private String newName;//name if changes have been made to the update username successfully
+	//private String newName;//name if changes have been made to the update username successfully
 
 
 	public void setPrimaryStage(Stage primaryStage) {
@@ -51,14 +53,15 @@ public class updateprofileController {
 	}
 
 
-	public void  sendusername(String username) {
-		loggedinName = username;	
+	public void  senduser(users user) {
+		usernamefromDashboard = user;	
 	}
 
 	@FXML 
 	public void updateUser(ActionEvent event) {
 		// Retrieve entered username, password, firstname and lastname
 		boolean result;
+		
 		try {
 			String userName = usernameUF.getText();
 			String firstname = firstnameUF.getText();
@@ -69,11 +72,12 @@ public class updateprofileController {
 				throw new emptyFieldException();
 			}
 			else {
-				result = dbutility.updateUser(loggedinName, userName, firstname, lastname, password);
+				
+				result = dbutility.updateUser(usernamefromDashboard,userName,firstname,lastname,password);
 				if (result == true){
-					newName = userName;
 					alerts.userUpdatedAlert();
 					//change scene to dashboard
+					usernamefromDashboard.setUsername(userName);
 					movetoDashboardPage();
 				}
 				else {
@@ -84,8 +88,7 @@ public class updateprofileController {
 		}catch(emptyFieldException e) {
 			result = false;
 			alerts.emptyFieldsAlert();
-			newName = loggedinName;
-		} catch (customExceptions.UsernameExistsException e) {
+		} catch (UsernameExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			alerts.UserExistsAlert();
@@ -102,7 +105,7 @@ public class updateprofileController {
 	public void movetoDashboardPage() {
 		dashboardScene dashboardScene = new dashboardScene(primaryStage);
 		primaryStage.setTitle(dashboardScene.getTitle());
-		primaryStage.setScene(dashboardScene.getScene(newName));
+		primaryStage.setScene(dashboardScene.getScene(usernamefromDashboard));
 
 		primaryStage.show();
 	}

@@ -3,6 +3,7 @@ package View;
 
 import java.io.IOException;
 import Controller.updateprofileController;
+import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +25,7 @@ public class updateProfileScene {
 		return "Update Details here";
 	}
 	
-	public Scene getScene(String username) {
+	public Scene getScene(users user) {
 		
 		if(scene != null) {
 			return scene;
@@ -43,7 +44,7 @@ public class updateProfileScene {
 		
 		updateprofileController controller = loader.getController();
 		controller.setPrimaryStage(primaryStage);
-		controller.sendusername(username);
+		controller.senduser(user);
 		
 		// create a scene
 		Scene scene = new Scene(parentNode);

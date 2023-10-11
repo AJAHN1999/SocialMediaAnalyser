@@ -3,6 +3,7 @@ package Controller;
 import java.sql.SQLException;
 
 import Database.dbutility;
+import Model.users;
 import View.dashboardScene;
 import View.registrationPageScene;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import alerts.alerts;
+import customExceptions.emptyFieldException;
 
 public class loginPageController {
 	
@@ -42,26 +44,40 @@ public class loginPageController {
 	public void loginUser(ActionEvent event) throws SQLException {
 		
 		// Retrieve entered username and password
+		try {
         String userName = username.getText();
         String Password = password.getText();
+        if(userName.isEmpty()||Password.isEmpty()) {       	
+        	throw new emptyFieldException();
+        	}
         System.out.println(userName);
         System.out.println(Password);
-		if(dbutility.authenticate(userName, Password) && !(userName.isEmpty()|| Password.isEmpty())) {
-			// login successful in the login page
-			System.out.println("reached successful");
-			alerts.SuccesfullloginAlert();
-			// Move to next scene(dashboard)
-			movetoDashboard(userName);
-			
-		}
-		else {
-			// login unsuccessful in login page
-			alerts.UnsuccessfulAlert();
-			//try again
-			username.setText("");
-			password.setText("");
-		}
+//		if(dbutility.authenticate(userName, Password) && !(userName.isEmpty()|| Password.isEmpty())) {
+//			// login successful in the login page
+//			System.out.println("reached successful");
+//			alerts.SuccesfullloginAlert();
+//			// Move to next scene(dashboard)
+//			movetoDashboard(userName);
+//			
+//		}
+//		else {
+//			// login unsuccessful in login page
+//			alerts.UnsuccessfulAlert();
+//			//try again
+//			username.setText("");
+//			password.setText("");
+//		}
+        users user = dbutility.authenticate(userName, Password);
+        if(user!=null) {
+        	movetoDashboard(user);
+        	alerts.SuccesfullloginAlert();
+        }
+        else {alerts.UnsuccessfulAlert();setFields();}     
+
+	} catch(emptyFieldException e) {
+		alerts.emptyFieldsAlert();setFields();}
 	}
+        
 	
 	@FXML
 	public void setRegScene(ActionEvent event) {
@@ -73,15 +89,18 @@ public class loginPageController {
 		primaryStage.show();
 	}
 	
-	public void movetoDashboard(String username) {
+	public void movetoDashboard(users user) {
 		dashboardScene dashboardScene = new dashboardScene(primaryStage);
 		primaryStage.setTitle(dashboardScene.getTitle());
-		primaryStage.setScene(dashboardScene.getScene(username));
+		primaryStage.setScene(dashboardScene.getScene(user));
 		
 		primaryStage.show();
 	}
 	
-	
+	private void setFields() {
+		username.setText("");
+		password.setText("");
+	}
 	
 	
 	

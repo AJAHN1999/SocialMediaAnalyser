@@ -9,11 +9,10 @@ public class mainApp extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 
-		loginPageScene loginPageScene = new loginPageScene(primaryStage);
+		loginPageScene loginPageScene = new loginPageScene(primaryStage);//primary stage is passed to the loginpage scene
 
 		primaryStage.setTitle(loginPageScene.getTitle());
 		primaryStage.setScene(loginPageScene.getScene());
-
 
 		primaryStage.show();
 
