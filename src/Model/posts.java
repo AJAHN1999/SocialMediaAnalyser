@@ -4,17 +4,15 @@ import java.time.LocalDateTime;
 
 public class posts { //Post class to create post objects
 	// Attributes of each post
-	private int ID;
-	private String content;
 	private String author;
+	private String content;
 	private int likes;
 	private int shares;
 	private LocalDateTime dateTime;
 
 	// Constructor for the Post class ; Whenever a post object is created, the
 	// attributes should be given in its parameters.
-	posts(int ID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
-		this.ID = ID;
+	public posts( String author , String content, int likes, int shares, LocalDateTime dateTime) {
 		this.content = content;
 		this.author = author;
 		this.likes = likes;
@@ -24,9 +22,6 @@ public class posts { //Post class to create post objects
 	}
 
 	// Methods to retrieve information about post(getter methods)
-	public int getId() {
-		return ID;
-	}
 
 	public String getContent() {
 		return content;

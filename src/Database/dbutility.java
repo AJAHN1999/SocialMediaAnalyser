@@ -7,8 +7,9 @@ import alerts.alerts;
 
 
 public class dbutility {
+	//private static Connection con = databaseConnection.getConnection();
 	// Database connection and query
-
+	//private static Connection con;
 	// Establish a database connection
 
 	public static users authenticate(String username, String password) throws SQLException {
@@ -51,7 +52,7 @@ public class dbutility {
 
 	public static boolean addUser(users newUser) throws UsernameExistsException, SQLException {
 		String insertQuery = "INSERT INTO users (username, firstname, lastname, password) VALUES (?, ?, ?, ?)";
-		Connection con = databaseConnection.getConnection();
+		Connection con= databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
 			preparedStatement.setString(1, newUser.getUsername());
@@ -59,7 +60,7 @@ public class dbutility {
 			preparedStatement.setString(3, newUser.getLastname());
 			preparedStatement.setString(4, newUser.getPassword());
 			System.out.println("reached before execute");
-			if(checkUserExists(newUser.getUsername())) {
+			if(UserExists(newUser.getUsername(),con)) {
 			con.close();	
 			return false;
 			}
@@ -84,7 +85,7 @@ public class dbutility {
 		String insertUserQuery = "UPDATE users SET  firstname = ?,lastname = ? , password =? WHERE username = ? ";
 		Connection con = databaseConnection.getConnection();
 		try {
-			if(!checkUserExists(newname)) {
+			if(!UserExists(newname,con)) {
 				System.out.println("before insertquery inside check user exists");	
 				PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
 				System.out.println("reached inside if block of checkuserexists");
@@ -95,7 +96,7 @@ public class dbutility {
 				preparedStatement.setString(5, user.getUsername());
 				int rowsAffected = preparedStatement.executeUpdate();
 				System.out.println(rowsAffected);
-				users userNew = retrieveUser(newname, firstname, lastname, password);			
+				users userNew = retrieveUser(newname, firstname, lastname, password,con);			
 				con.close();
 				//return true;
 				return userNew;
@@ -106,11 +107,11 @@ public class dbutility {
 				preparedStatement.setString(1, firstname);
 				preparedStatement.setString(2, lastname);
 				preparedStatement.setString(3, password);
-				preparedStatement.setString(4, user.getUsername());
-				int rowsAffected = preparedStatement.executeUpdate();
-				System.out.println(rowsAffected);
+				preparedStatement.setString(4, newname);
+				preparedStatement.executeUpdate();
+				//System.out.println(rowsAffected);		
+				users userNew = retrieveUser(user.getUsername(),firstname,lastname,password,con);
 				con.close();
-				users userNew = retrieveUser(user.getUsername(),firstname,lastname,password);
 				return userNew;
 				//return true;
 			}
@@ -137,57 +138,73 @@ public class dbutility {
 			con.close();}
 	}
 
-	public static boolean checkUserExists(String newname) throws SQLException {
+	public static boolean UserExists(String newname, Connection con) throws SQLException {
 		String insertQuery = "SELECT username FROM users WHERE username = ?";
-		Connection con = databaseConnection.getConnection();
+		//Connection con = databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
 			preparedStatement.setString(1, newname);
 			System.out.println("before resultset");
-			ResultSet resultSet1 = preparedStatement.executeQuery();
+			
+			ResultSet resultSet1 = preparedStatement.executeQuery();// if resultset object isn't returning anything it means there is no such usrname,will be
+			//caught by the sqlexception, then, return true in 
+			System.out.println("retrieved username from checkUserExists:"+resultSet1.getString("username"));
 			if(resultSet1.next()) {
-				con.close();
+				//con.close();
 				return true;//user exists	
 			}	
 			else {
 				System.out.println("user doesn't exist");
-				con.close();
+				//con.close();
 				return false;
 
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
-			con.close();
-			return false;
-		}finally {
-			con.close();}
-
-
+			//con.close();
+			return false;}//user doesnt exists
+//		}finally {
+//			con.close();}
+//
+//
 	}
 	
-	public static users retrieveUser(String username , String firstname, String lastname, String password) throws SQLException {
+	public static users retrieveUser(String username , String firstname, String lastname, String password,Connection con) throws SQLException {
 		String retrieveQuery = "SELECT username,firstname,lastname,password  FROM users WHERE username = ?";
-		Connection con = databaseConnection.getConnection();
+		//Connection con = databaseConnection.getConnection();
 		try {
 		PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
 		preparedStatement.setString(1, username);
 		ResultSet resultset = preparedStatement.executeQuery();
 		if(resultset.next())
-		{		return new users(resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
+		{		//con.close();
+				return new users(resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
 	}
 		else {
+			//con.close();
 			return null;}
 		}catch(SQLException e) {
 		e.printStackTrace();
-		con.close();
+		//con.close();
 		return null;}
-		finally {con.close();}
 	}
-}
+
 		
-	
+	public static int retrieveuserId(users user) throws SQLException {
+		String retrieveuserIdQuery = "SELECT userid FROM users WHERE username = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(retrieveuserIdQuery);
+			preparedStatement.setString(1, user.getUsername());
+			ResultSet resultSet = preparedStatement.executeQuery();
+			int userId= resultSet.getInt("userid");
+			con.close();
+			return userId;
+	}catch(SQLException e) {con.close();e.printStackTrace();
+		return 0;}finally {con.close();}
+	}
 
-
+}
 
 
 

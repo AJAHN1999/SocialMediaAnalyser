@@ -53,7 +53,37 @@ public class alerts {
 		alert.showAndWait();
 	}
 
-
+	public static void postaddedAlert() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Post Added");
+		alert.setHeaderText(null);
+		alert.setContentText("Post has been added successfully");
+		alert.showAndWait();
+	}
+	
+	public static void posterrorAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error:Post not added");
+		alert.setHeaderText(null);
+		alert.setContentText("Post addition failed");
+		alert.showAndWait();
+	}
+	
+	public static void datetimeerrorAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error:Invalid DateTime");
+		alert.setHeaderText(null);
+		alert.setContentText("Invalid date-time provided, please enter d/MM/YYYY HH:MM");
+		alert.showAndWait();
+	}
+	
+	public static void invalidlikesSharesrrorAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error:Invalid Likes or Shares");
+		alert.setHeaderText(null);
+		alert.setContentText("Invalid likes/shares type provided, please enter a number");
+		alert.showAndWait();
+	}
 
 
 }

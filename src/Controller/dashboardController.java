@@ -2,6 +2,7 @@ package Controller;
 
 
 import Model.users;
+import View.addPostScene;
 import View.loginPageScene;
 import View.updateProfileScene;
 import javafx.event.ActionEvent;
@@ -62,6 +63,14 @@ public class dashboardController {
 		updateProfileScene profileupdateScene = new updateProfileScene(primaryStage);
 		primaryStage.setTitle(profileupdateScene.getTitle());
 		primaryStage.setScene(profileupdateScene.getScene(user));
+		primaryStage.show();
+	}
+	
+	@FXML
+	private void movetoAddPost(ActionEvent event) {
+		addPostScene postScene = new addPostScene(primaryStage);
+		primaryStage.setTitle(postScene.getTitle());
+		primaryStage.setScene(postScene.getScene(user));
 		primaryStage.show();
 	}
 
