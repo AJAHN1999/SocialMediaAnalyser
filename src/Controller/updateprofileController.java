@@ -51,10 +51,13 @@ public class updateprofileController {
 		lastnameUF.setText("");
 		passwordUF.setText("");
 	}
-
+	//AJ	public updateprofileController(users user) {}
 
 	public void  senduser(users user) {
 		usernamefromDashboard = user;	
+		usernameUF.setText(usernamefromDashboard.getUsername());
+		firstnameUF.setText(usernamefromDashboard.getFirstname());
+		lastnameUF.setText(usernamefromDashboard.getLastname());
 	}
 
 	@FXML 
