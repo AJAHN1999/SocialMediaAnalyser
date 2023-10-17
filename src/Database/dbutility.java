@@ -17,18 +17,19 @@ public class dbutility {
 		try{
 			System.out.println("accessed try block");
 			System.out.println(con);
-			String query = "SELECT username,firstname,lastname,password FROM users WHERE username = ?";
+			String query = "SELECT userId, username,firstname,lastname,password FROM users WHERE username = ?";
 			System.out.println("accessed past query st");
 			PreparedStatement preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1,username);
 
 			// Execute the query and retrieve results
 			ResultSet resultSet = preparedStatement.executeQuery();
+			int userId = resultSet.getInt("userId");
 			String usernameR = resultSet.getString("username");
 			String firstnameR = resultSet.getString("firstname");
 			String lastnameR = resultSet.getString("lastname");
 			String passwordR = resultSet.getString("password");
-			users user = new users(usernameR,firstnameR, lastnameR, passwordR);//retrieveing a user object
+			users user = new users(userId,usernameR,firstnameR, lastnameR, passwordR);//retrieveing a user object
 			System.out.println(usernameR);
 			System.out.println(passwordR);
 			resultSet.close();
@@ -170,7 +171,7 @@ public class dbutility {
 	}
 	
 	public static users retrieveUser(String username , String firstname, String lastname, String password,Connection con) throws SQLException {
-		String retrieveQuery = "SELECT username,firstname,lastname,password  FROM users WHERE username = ?";
+		String retrieveQuery = "SELECT userid, username,firstname,lastname,password  FROM users WHERE username = ?";
 		//Connection con = databaseConnection.getConnection();
 		try {
 		PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
@@ -178,7 +179,7 @@ public class dbutility {
 		ResultSet resultset = preparedStatement.executeQuery();
 		if(resultset.next())
 		{		//con.close();
-				return new users(resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
+				return new users(resultset.getInt("userid"), resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
 	}
 		else {
 			//con.close();
@@ -190,19 +191,19 @@ public class dbutility {
 	}
 
 		
-	public static int retrieveuserId(users user) throws SQLException {
-		String retrieveuserIdQuery = "SELECT userid FROM users WHERE username = ?";
-		Connection con = databaseConnection.getConnection();
-		try {
-			PreparedStatement preparedStatement = con.prepareStatement(retrieveuserIdQuery);
-			preparedStatement.setString(1, user.getUsername());
-			ResultSet resultSet = preparedStatement.executeQuery();
-			int userId= resultSet.getInt("userid");
-			con.close();
-			return userId;
-	}catch(SQLException e) {con.close();e.printStackTrace();
-		return 0;}finally {con.close();}
-	}
+//	public static int retrieveuserId(users user) throws SQLException {
+//		String retrieveuserIdQuery = "SELECT userid FROM users WHERE username = ?";
+//		Connection con = databaseConnection.getConnection();
+//		try {
+//			PreparedStatement preparedStatement = con.prepareStatement(retrieveuserIdQuery);
+//			preparedStatement.setString(1, user.getUsername());
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			int userId= resultSet.getInt("userid");
+//			con.close();
+//			return userId;
+//	}catch(SQLException e) {con.close();e.printStackTrace();
+//		return 0;}finally {con.close();}
+//	}
 
 }
 

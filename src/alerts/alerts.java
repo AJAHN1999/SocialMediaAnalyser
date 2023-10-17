@@ -84,6 +84,23 @@ public class alerts {
 		alert.setContentText("Invalid likes/shares type provided, please enter a number");
 		alert.showAndWait();
 	}
-
-
+	
+	public static void invalidInputError() {
+		Alert errorAlert = new Alert(AlertType.ERROR);
+		errorAlert.setTitle("Invalid Input Provided");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText("You may have inputted a string.");
+		errorAlert.showAndWait();
+	}
+	
+	public static void postdeletedAlert(int postId) {
+		Alert errorAlert = new Alert(AlertType.INFORMATION);
+		errorAlert.setTitle("Post Deleted");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText(String.format("The post %d has been deleted successfully ",postId));
+		errorAlert.showAndWait();
+	}
 }
+
+
+

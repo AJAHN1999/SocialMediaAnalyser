@@ -1,6 +1,7 @@
 package Model;
 
 public class users {
+	private int userid;
 	private String username;
 	private String password;
 	private String firstname;
@@ -14,7 +15,18 @@ public class users {
 		this.lastname= lastname;
 		
 	}
-
+	
+	//constructor
+		public users(int userid, String username, String firstname, String lastname, String password) {
+			this.userid = userid;
+			this.username = username;
+			this.password = password;
+			this.firstname= firstname;
+			this.lastname= lastname;
+			
+		}
+	
+	
 	public String getUsername() {
 		return username;
 	}
@@ -45,6 +57,14 @@ public class users {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
 	
 	

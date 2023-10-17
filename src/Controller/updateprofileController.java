@@ -51,7 +51,7 @@ public class updateprofileController {
 		lastnameUF.setText("");
 		passwordUF.setText("");
 	}
-	//AJ	public updateprofileController(users user) {}
+	
 
 	public void  senduser(users user) {
 		usernamefromDashboard = user;	

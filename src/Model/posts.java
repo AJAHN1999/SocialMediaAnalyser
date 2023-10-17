@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 public class posts { //Post class to create post objects
 	// Attributes of each post
+	private int postID;
+	private int authorID;
 	private String author;
 	private String content;
 	private int likes;
@@ -20,6 +22,16 @@ public class posts { //Post class to create post objects
 		this.dateTime = dateTime;
 
 	}
+	
+	 public posts(int postID, int authorID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
+	        this.postID = postID;
+	        this.authorID = authorID;
+	        this.content = content;
+	        this.author = author;
+	        this.likes = likes;
+	        this.shares = shares;
+	        this.dateTime = dateTime;
+	    }
 
 	// Methods to retrieve information about post(getter methods)
 
@@ -42,6 +54,23 @@ public class posts { //Post class to create post objects
 	public int getShares() {
 		return shares;
 	}
+
+	public int getPostID() {
+		return postID;
+	}
+
+	public void setPostID(int postID) {
+		this.postID = postID;
+	}
+
+	public int getAuthorID() {
+		return authorID;
+	}
+
+	public void setAuthorID(int authorID) {
+		this.authorID = authorID;
+	}
+	
 
 }
 

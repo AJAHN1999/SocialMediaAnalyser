@@ -4,6 +4,7 @@ package Controller;
 import Model.users;
 import View.addPostScene;
 import View.loginPageScene;
+import View.retrievePostScene;
 import View.updateProfileScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,4 +75,11 @@ public class dashboardController {
 		primaryStage.show();
 	}
 
+	@FXML
+	private void movetoRetrievePost(ActionEvent event) {
+		retrievePostScene retrieveScene = new retrievePostScene(primaryStage);
+		primaryStage.setTitle(retrieveScene.getTitle());
+		primaryStage.setScene(retrieveScene.getScene(user));
+		primaryStage.show();
+	}
 }
