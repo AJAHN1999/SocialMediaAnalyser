@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import Model.posts;
 //import Model.posts;
@@ -31,6 +32,44 @@ public class dbutilityposts {
 			}catch(SQLException e) {e.printStackTrace();con.close(); return false;}
 		finally {con.close();}
 }
+
+	public static ArrayList<posts> retrieveNpostsFromDB(users user, int N, String type) throws SQLException {
+		ArrayList<posts> topNposts = new ArrayList<posts>();
+		if (type == "for users") {	
+			String retrieveUserPosts = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts WHERE userid = ? ORDER BY likes DESC LIMIT ?";
+			Connection con = databaseConnection.getConnection();
+			try {
+				PreparedStatement preparedStatement = con.prepareStatement(retrieveUserPosts);
+				preparedStatement.setLong(1, user.getUserid());
+				preparedStatement.setLong(2,N);
+				ResultSet resultset = preparedStatement.executeQuery();
+				while(resultset.next()) {
+					topNposts.add( new posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));					
+				}
+				return topNposts;
+			}catch(SQLException e) {e.printStackTrace();return null;}
+			finally {con.close();}
+		}
+		if(type == "for all users") {
+			String retrievetopNPosts = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts ORDER BY likes DESC LIMIT ?";
+			Connection con = databaseConnection.getConnection();
+			try {
+				PreparedStatement preparedStatement = con.prepareStatement(retrievetopNPosts);
+				preparedStatement.setLong(1,N);
+				ResultSet resultset = preparedStatement.executeQuery();			
+				while(resultset.next()) {
+					topNposts.add( new posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));				
+		}		
+				return topNposts;
+	}catch(SQLException e){e.printStackTrace();return null;}
+			finally {con.close();}
+		}
+		else {return null;}
+	}
+	
+	
+	
+	
 	public static posts retrievePostFromDB(users user, int postId) throws SQLException {
 		String retrievePostQuery = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts WHERE postId = ? AND userid = ?";
 		Connection con = databaseConnection.getConnection();
@@ -49,10 +88,23 @@ public class dbutilityposts {
 			}catch(SQLException e) { e.printStackTrace();return null;}
 		finally {con.close();}
 	}
-}
+
 	
-//	public static boolean deletePost(int postId, users user) {
-//		String deletePostQuery = "DELETE FROM posts WHERE postId = ?";
-//		
-//	}
+	public static boolean deletePost(int postId) throws SQLException {
+		String deletePostQuery = "DELETE FROM posts WHERE postId = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(deletePostQuery);
+			preparedStatement.setLong(1, postId);
+			int result = preparedStatement.executeUpdate();
+			if(result == 1) {return true;}
+			else {return false;}
+			
+	}catch(SQLException e) {e.printStackTrace();return false;}
+		finally {con.close();}	
+	}
+	
+	
+	
+}
 

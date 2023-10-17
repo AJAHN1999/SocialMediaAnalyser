@@ -44,8 +44,8 @@ public class retrievePostScene {
 		}
 		
 		retrievePostController controller = loader.getController();
-		controller.setPrimaryStage(primaryStage);
 		controller.senduser(user);
+		controller.setPrimaryStage(primaryStage);
 		// create a scene
 		Scene scene = new Scene(parentNode);
 		
