@@ -32,6 +32,15 @@ public class posts { //Post class to create post objects
 	        this.shares = shares;
 	        this.dateTime = dateTime;
 	    }
+//	 public posts(int authorID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
+//	        this.postID = postID;
+//	        this.authorID = authorID;
+//	        this.content = content;
+//	        this.author = author;
+//	        this.likes = likes;
+//	        this.shares = shares;
+//	        this.dateTime = dateTime;
+//	    }
 
 	// Methods to retrieve information about post(getter methods)
 

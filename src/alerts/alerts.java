@@ -100,6 +100,27 @@ public class alerts {
 		errorAlert.setContentText(String.format("The post %d has been deleted successfully ",postId));
 		errorAlert.showAndWait();
 	}
+	public static void VIPuserAlert() {
+		Alert errorAlert = new Alert(AlertType.INFORMATION);
+		errorAlert.setTitle("New VIP");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText(String.format("You are now a VIP. Please logout and login to gain access to VIP features!"));
+		errorAlert.showAndWait();
+}
+	public static void bulkImportSuccessfullAlert() {
+		Alert errorAlert = new Alert(AlertType.INFORMATION);
+		errorAlert.setTitle("BulkImport Window");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText(String.format("Bulk import has been accomplished successfully"));
+		errorAlert.showAndWait();
+}
+	public static void bulkImportFailedAlert() {
+		Alert errorAlert = new Alert(AlertType.ERROR);
+		errorAlert.setTitle("BulkImport Window");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText(String.format("Bulk import failed, please check file type"));
+		errorAlert.showAndWait();
+}
 }
 
 

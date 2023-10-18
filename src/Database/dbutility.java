@@ -17,7 +17,7 @@ public class dbutility {
 		try{
 			System.out.println("accessed try block");
 			System.out.println(con);
-			String query = "SELECT userId, username,firstname,lastname,password FROM users WHERE username = ?";
+			String query = "SELECT userId, username,firstname,lastname,password,isVIP FROM users WHERE username = ?";
 			System.out.println("accessed past query st");
 			PreparedStatement preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1,username);
@@ -29,7 +29,8 @@ public class dbutility {
 			String firstnameR = resultSet.getString("firstname");
 			String lastnameR = resultSet.getString("lastname");
 			String passwordR = resultSet.getString("password");
-			users user = new users(userId,usernameR,firstnameR, lastnameR, passwordR);//retrieveing a user object
+			int isVIP = resultSet.getInt("isVIP");
+			users user = new users(userId,usernameR,firstnameR, lastnameR, passwordR,isVIP);//retrieveing a user object
 			System.out.println(usernameR);
 			System.out.println(passwordR);
 			resultSet.close();
@@ -52,7 +53,7 @@ public class dbutility {
 	}
 
 	public static boolean addUser(users newUser) throws UsernameExistsException, SQLException {
-		String insertQuery = "INSERT INTO users (username, firstname, lastname, password) VALUES (?, ?, ?, ?)";
+		String insertQuery = "INSERT INTO users (username, firstname, lastname, password, isVIP) VALUES (?, ?, ?, ?, ?)";
 		Connection con= databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
@@ -60,6 +61,7 @@ public class dbutility {
 			preparedStatement.setString(2, newUser.getFirstname());
 			preparedStatement.setString(3, newUser.getLastname());
 			preparedStatement.setString(4, newUser.getPassword());
+			preparedStatement.setLong(5, newUser.getIsVIP());			
 			System.out.println("reached before execute");
 			if(UserExists(newUser.getUsername(),con)) {
 			con.close();	
@@ -137,6 +139,19 @@ public class dbutility {
 			return null;
 		}finally {
 			con.close();}
+	}
+	
+	public static boolean updateUser(users user) throws SQLException {
+		String updateVIPQuery = "UPDATE users SET isVIP = 1  WHERE userId = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(updateVIPQuery);
+			preparedStatement.setLong(1, user.getUserid());
+			preparedStatement.executeUpdate();
+			con.close();
+			return true;
+		}catch(SQLException e) {e.printStackTrace();con.close();return false;}
+		finally {con.close();}
 	}
 
 	public static boolean UserExists(String newname, Connection con) throws SQLException {

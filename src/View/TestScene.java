@@ -2,29 +2,27 @@ package View;
 
 import java.io.IOException;
 
-import Controller.dashboardController;
-import Controller.loginPageController;
-import Controller.updateprofileController;
+import Controller.TestController;
+import Controller.VIPController;
 import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class dashboardScene {
-	
+public class TestScene {
 	private Stage primaryStage;
 	
 	private Scene scene;
 	
-	public dashboardScene(Stage primaryStage) {
+	public TestScene(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		scene = null;
 	}
 	
 
 	public String getTitle() {
-		return "Welcome to your dashboard";
+		return "Retrieve Posts here";
 	}
 	
 	public Scene getScene(users user) {
@@ -34,8 +32,8 @@ public class dashboardScene {
 		}
 		
 		// load FXML
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-				
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("test.fxml"));
+
 		// load the FXML
 		Parent parentNode = null;
 		try {
@@ -44,19 +42,13 @@ public class dashboardScene {
 			e.printStackTrace();
 		}
 		
-		dashboardController controller = loader.getController();
+		TestController controller = loader.getController();
+//		controller.senduser(user);
 		controller.setPrimaryStage(primaryStage);
-		controller.setwelcomeLabel(user);
-		if(user.getIsVIP()==1) {
-			controller.setDataVbutton(true);
-			controller.setbulkImportButton(true);
-			controller.setUpgradetoVIP(false);}
-		
 		// create a scene
 		Scene scene = new Scene(parentNode);
 		
 		return scene;
 		
 	}
-	
 }

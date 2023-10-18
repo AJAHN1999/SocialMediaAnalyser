@@ -6,6 +6,7 @@ public class users {
 	private String password;
 	private String firstname;
 	private String lastname;
+	private int isVIP;
 	
 	//constructor
 	public users( String username, String firstname, String lastname, String password) {
@@ -25,6 +26,17 @@ public class users {
 			this.lastname= lastname;
 			
 		}
+		
+		public users(int userid, String username, String firstname, String lastname, String password, int isVIP) {
+			this.userid = userid;
+			this.username = username;
+			this.password = password;
+			this.firstname= firstname;
+			this.lastname= lastname;
+			this.isVIP = isVIP;
+			
+		}
+	
 	
 	
 	public String getUsername() {
@@ -65,6 +77,14 @@ public class users {
 
 	public void setUserid(int userid) {
 		this.userid = userid;
+	}
+
+	public int getIsVIP() {
+		return isVIP;
+	}
+
+	public void setIsVIP(int isVIP) {
+		this.isVIP = isVIP;
 	}
 	
 	

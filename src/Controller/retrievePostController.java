@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -84,9 +85,7 @@ public class retrievePostController {
 		    dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
 		    authorIdColumn.setCellValueFactory(new PropertyValueFactory<>("authorID"));
 		    combobox.setValue("for users");
-		    combobox.setItems(comboList);
-		    
-
+		    combobox.setItems(comboList);    
 		}
 		
 
@@ -144,5 +143,19 @@ public class retrievePostController {
 			primaryStage.setScene(dashboardScene.getScene(userfromDashboard));
 			primaryStage.show();
 		}
+		
+//		public void ExportToCSV() {
+//			// Get the selection model
+//			TableView.TableViewSelectionModel<posts> selectionModel = postTableView.getSelectionModel();
+//			// To select a single item (e.g., when a row is clicked)
+//			selectionModel.setSelectionMode(SelectionMode.SINGLE);
+//			posts selectedPost = selectionModel.getSelectedItem(); // For single selection
+//
+//			
+//		}
+		
+	
+		
+		
 		}
 

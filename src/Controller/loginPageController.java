@@ -54,8 +54,10 @@ public class loginPageController {
         System.out.println(Password);
         users user = dbutility.authenticate(userName, Password);
         if(user!=null) {
+        	
         	movetoDashboard(user);
         	alerts.SuccesfullloginAlert();
+        
         }
         else {alerts.UnsuccessfulAlert();setFields();}     
 

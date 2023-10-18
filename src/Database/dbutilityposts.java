@@ -32,6 +32,7 @@ public class dbutilityposts {
 			}catch(SQLException e) {e.printStackTrace();con.close(); return false;}
 		finally {con.close();}
 }
+	
 
 	public static ArrayList<posts> retrieveNpostsFromDB(users user, int N, String type) throws SQLException {
 		ArrayList<posts> topNposts = new ArrayList<posts>();
@@ -89,6 +90,27 @@ public class dbutilityposts {
 		finally {con.close();}
 	}
 
+	public static ArrayList<posts> retrieveNpostsFromDB(users user) throws SQLException {
+		ArrayList<posts> posts = new ArrayList<posts>();
+		String retrievePostQuery = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts WHERE  userid = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(retrievePostQuery);
+			preparedStatement.setLong(1, user.getUserid());
+			ResultSet resultset = preparedStatement.executeQuery();
+			while(resultset.next())
+			{
+					posts.add(new  posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));
+		}
+			con.close();
+			return posts;
+		}
+			catch(SQLException e) { e.printStackTrace();return null;}
+		finally {con.close();}
+	}
+		
+	
+	
 	
 	public static boolean deletePost(int postId) throws SQLException {
 		String deletePostQuery = "DELETE FROM posts WHERE postId = ?";
