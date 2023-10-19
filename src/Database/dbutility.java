@@ -7,10 +7,7 @@ import alerts.alerts;
 
 
 public class dbutility {
-	//private static Connection con = databaseConnection.getConnection();
-	// Database connection and query
-	//private static Connection con;
-	// Establish a database connection
+
 
 	public static users authenticate(String username, String password) throws SQLException {
 		Connection con = databaseConnection.getConnection();
@@ -186,7 +183,7 @@ public class dbutility {
 	}
 	
 	public static users retrieveUser(String username , String firstname, String lastname, String password,Connection con) throws SQLException {
-		String retrieveQuery = "SELECT userid, username,firstname,lastname,password  FROM users WHERE username = ?";
+		String retrieveQuery = "SELECT userid, username,firstname,lastname,password,isVIP  FROM users WHERE username = ?";
 		//Connection con = databaseConnection.getConnection();
 		try {
 		PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
@@ -194,7 +191,7 @@ public class dbutility {
 		ResultSet resultset = preparedStatement.executeQuery();
 		if(resultset.next())
 		{		//con.close();
-				return new users(resultset.getInt("userid"), resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"));
+				return new users(resultset.getInt("userid"), resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"),resultset.getInt("isVIP"));
 	}
 		else {
 			//con.close();
@@ -205,20 +202,7 @@ public class dbutility {
 		return null;}
 	}
 
-		
-//	public static int retrieveuserId(users user) throws SQLException {
-//		String retrieveuserIdQuery = "SELECT userid FROM users WHERE username = ?";
-//		Connection con = databaseConnection.getConnection();
-//		try {
-//			PreparedStatement preparedStatement = con.prepareStatement(retrieveuserIdQuery);
-//			preparedStatement.setString(1, user.getUsername());
-//			ResultSet resultSet = preparedStatement.executeQuery();
-//			int userId= resultSet.getInt("userid");
-//			con.close();
-//			return userId;
-//	}catch(SQLException e) {con.close();e.printStackTrace();
-//		return 0;}finally {con.close();}
-//	}
+
 
 }
 

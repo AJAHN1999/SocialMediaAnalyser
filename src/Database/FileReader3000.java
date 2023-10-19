@@ -34,7 +34,7 @@ public class FileReader3000 {
 				if(line.startsWith("ID")) {continue;}
 				String[] post = line.split(",");
 				try {
-				posts p1 = new posts(user.getUsername(),post[1],Integer.parseInt(post[3]),Integer.parseInt(post[4]),LocalDateTime.parse(post[5], formatter));
+				posts p1 = new posts(post[2],post[1],Integer.parseInt(post[3]),Integer.parseInt(post[4]),LocalDateTime.parse(post[5], formatter));
 				dbutilityposts.addPosttoDB(this.user, p1);		}catch(NumberFormatException e) {continue;}
 				catch(DateTimeParseException e){e.printStackTrace();continue; }
 			}

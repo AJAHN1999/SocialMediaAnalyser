@@ -1,4 +1,6 @@
 package Controller;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -112,7 +115,7 @@ public class retrievePostController {
 		public void deletePost(ActionEvent event) {
 			try {
 			int postIdInput = Integer.parseInt(postId.getText());
-			boolean deletedPost = dbutilityposts.deletePost(postIdInput);
+			boolean deletedPost = dbutilityposts.deletePost(postIdInput, userfromDashboard);
 			if(deletedPost) {
 				alerts.postdeletedAlert(postIdInput);
 			}
@@ -143,6 +146,31 @@ public class retrievePostController {
 			primaryStage.setScene(dashboardScene.getScene(userfromDashboard));
 			primaryStage.show();
 		}
+		
+		@FXML
+		public void exportPost(ActionEvent event) {
+			try {
+				int postIdInput = Integer.parseInt(postId.getText());
+				posts retrievedPost = dbutilityposts.retrievePostFromDB(userfromDashboard,postIdInput);
+				if(retrievedPost == null) {
+					System.out.println("cannot export because it doesn't belong to you");
+				}
+				else {
+					FileChooser fileChooser = new FileChooser();
+				    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+				    File selectedFile = fileChooser.showSaveDialog(new Stage());
+				    if (selectedFile != null) {
+				        // Process the selected CSV file, passing the selectedFile to the export method
+				        dbutilityposts.exportPostToCSV(retrievedPost, selectedFile);
+				    }
+				}
+			}
+			catch(SQLException e) {e.printStackTrace();}
+		}
+				
+		
+		
+
 		
 //		public void ExportToCSV() {
 //			// Get the selection model

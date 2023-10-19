@@ -72,12 +72,13 @@ public class addPostController {
 		boolean addedPost = dbutilityposts.addPosttoDB(userfromDashboard, new posts(userfromDashboard.getUsername(),contentUser, likesUser, sharesUser, dateandtimeUser));
 		if(addedPost) {alerts.postaddedAlert();setEmptyFields();}
 		else {alerts.posterrorAlert();setEmptyFields();}
-	}catch(NumberFormatException e) {
+	}catch(emptyFieldException e ) {e.printStackTrace();alerts.emptyFieldsAlert();}
+		catch(NumberFormatException e) {
 		e.printStackTrace();alerts.invalidlikesSharesrrorAlert();;}
 	catch(DateTimeParseException e ){
 		e.printStackTrace();alerts.datetimeerrorAlert();
 	}catch(SQLException e) {e.printStackTrace();}
-	catch(emptyFieldException e ) {e.printStackTrace();alerts.emptyFieldsAlert();}
+	
 }
 	
 

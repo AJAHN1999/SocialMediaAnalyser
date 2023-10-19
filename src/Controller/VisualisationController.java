@@ -10,8 +10,10 @@ import java.util.Map;
 import Database.dbutilityposts;
 import Model.posts;
 import Model.users;
+import View.dashboardScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;
@@ -21,7 +23,7 @@ public class VisualisationController {
 
 	private Stage primaryStage;
 	
-	//private users userfromDashboard;
+	private users userfromDashboard;
 	
 	@FXML
 	PieChart sharesPieChart; 
@@ -37,6 +39,7 @@ public class VisualisationController {
 	
 	@FXML
 	public void initialize(users user) {
+		userfromDashboard = user;
 		HashMap<String,Integer> sharesCategories = shares(user);
 		ObservableList<PieChart.Data> pieChartData =FXCollections.observableArrayList();
 		for (Map.Entry<String, Integer> entry : sharesCategories.entrySet()) {
@@ -75,6 +78,14 @@ public class VisualisationController {
 	}catch(SQLException e) {e.printStackTrace();return null;}
 
 }
+	
+	@FXML
+	public void movetoDashboard(ActionEvent event) {
+		dashboardScene dashboardScene = new dashboardScene(primaryStage);
+		primaryStage.setTitle(dashboardScene.getTitle());
+		primaryStage.setScene(dashboardScene.getScene(userfromDashboard));
+		primaryStage.show();
+	}
 }
 
 	

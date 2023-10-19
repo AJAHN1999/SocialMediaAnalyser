@@ -1,5 +1,8 @@
 package Database;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +23,7 @@ public class dbutilityposts {
 		Connection con = databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
-			preparedStatement.setString(1, user.getUsername());
+			preparedStatement.setString(1, post.getAuthor());
 			preparedStatement.setString(2, post.getContent());
 			preparedStatement.setInt(3, post.getLikes());
 			preparedStatement.setInt(4, post.getShares());
@@ -112,21 +115,40 @@ public class dbutilityposts {
 	
 	
 	
-	public static boolean deletePost(int postId) throws SQLException {
-		String deletePostQuery = "DELETE FROM posts WHERE postId = ?";
+	public static boolean deletePost(int postId, users user) throws SQLException {
+		String deletePostQuery = "DELETE FROM posts WHERE postId = ? AND userid = ?";
 		Connection con = databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(deletePostQuery);
 			preparedStatement.setLong(1, postId);
+			preparedStatement.setLong(2, user.getUserid());
 			int result = preparedStatement.executeUpdate();
 			if(result == 1) {return true;}
-			else {return false;}
+			else { return false;}
 			
 	}catch(SQLException e) {e.printStackTrace();return false;}
 		finally {con.close();}	
 	}
 	
-	
+	public static void exportPostToCSV(posts post, File selectedFile) {
+		 try (FileWriter fileWriter = new FileWriter(selectedFile)) {
+             // Write CSV header
+             fileWriter.write("ID,author,content,likes,shares,date-time,userId\n");
+          // Write post data to the CSV file
+             String csvRow = String.format(
+                 "%d,%s,%s,%d,%d,%s,%d%n",
+                 post.getPostID(),
+                 post.getContent(),
+                 post.getAuthor(),
+                 post.getLikes(),
+                 post.getShares(),
+                 post.getDateTime(),
+                 post.getAuthorID()
+             );
+             fileWriter.write(csvRow);
+	}catch (IOException e) {
+        e.printStackTrace();}
+	}
 	
 }
 

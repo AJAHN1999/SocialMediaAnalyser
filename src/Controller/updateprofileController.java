@@ -34,7 +34,7 @@ public class updateprofileController {
 	private TextField lastnameUF;
 
 	@FXML
-	private TextField passwordUF;
+	private PasswordField passwordUF;
 
 	private users usernamefromDashboard;
 

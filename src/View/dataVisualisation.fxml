@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.VisualisationController">
    <children>
       <PieChart fx:id="sharesPieChart" layoutX="186.0" layoutY="81.0" prefHeight="295.0" prefWidth="301.0" title="Distribution of Shares" />
+      <Button layoutX="301.0" layoutY="438.0" mnemonicParsing="false" onAction="#movetoDashboard" text="&lt; Back" />
    </children>
 </AnchorPane>
