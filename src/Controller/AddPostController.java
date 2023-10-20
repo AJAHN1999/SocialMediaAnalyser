@@ -13,6 +13,7 @@ import View.dashboardScene;
 import View.updateProfileScene;
 import alerts.alerts;
 import customExceptions.EmptyFieldException;
+import customExceptions.InvalidLikesSharesException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -68,16 +69,17 @@ public class AddPostController {
 			int likesUser = Integer.parseInt(likes.getText());
 			int sharesUser = Integer.parseInt(shares.getText());
 			LocalDateTime dateandtimeUser = LocalDateTime.parse(dateAndTime.getText(),formatter);
-			if(contentUser.isEmpty() || likes.getText().isEmpty()||shares.getText().isEmpty()||dateAndTime.getText().isEmpty()) 
-			{throw new EmptyFieldException();}
+			if(contentUser.isEmpty() || likes.getText().isEmpty()||shares.getText().isEmpty()||dateAndTime.getText().isEmpty()||likes.getText().startsWith("-")||shares.getText().startsWith("-")) 
+			{if(likes.getText().startsWith("-")||shares.getText().startsWith("-")) {throw  new InvalidLikesSharesException();}throw new EmptyFieldException();}
 			boolean addedPost = DatabaseUtilityPosts.addPosttoDB(userfromDashboard, new posts(userfromDashboard.getUsername(),contentUser, likesUser, sharesUser, dateandtimeUser));
 			if(addedPost) {alerts.postaddedAlert();setEmptyFields();}
 			else {alerts.posterrorAlert();setEmptyFields();}
-		}catch(EmptyFieldException e ) {alerts.emptyFieldsAlert();}
+		}catch(InvalidLikesSharesException e) {alerts.invalidlikesSharesrrorAlert();}
+		catch(EmptyFieldException e ) {alerts.emptyFieldsAlert();}
 		catch(NumberFormatException e) {
 			alerts.invalidlikesSharesrrorAlert();;}
 		catch(DateTimeParseException e ){
-			e.printStackTrace();alerts.datetimeerrorAlert();
+		alerts.datetimeerrorAlert();
 		}catch(SQLException e) {e.printStackTrace();}
 
 	}

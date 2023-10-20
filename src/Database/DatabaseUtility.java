@@ -206,8 +206,19 @@ public class DatabaseUtility {
 			return null;}
 	}
 
+	public static void deleteUser(users user) throws SQLException {
+		String deleteQuery = "DELETE FROM users WHERE username = ?";
+		Connection con = databaseConnection.getConnection();
+		try {
+		PreparedStatement preparedStatement = con.prepareStatement(deleteQuery);
+		preparedStatement.setString(1, user.getUsername());
+		preparedStatement.executeUpdate();
+		System.out.println("deleted successfully "+user.getUsername());
+		con.close();
+	}catch(SQLException e) {e.printStackTrace();con.close();}
+		finally {con.close();}
 
-
+}
 }
 
 

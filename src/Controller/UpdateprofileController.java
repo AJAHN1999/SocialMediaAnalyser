@@ -61,7 +61,7 @@ public class UpdateprofileController {
 	}
 
 	@FXML 
-	public void updateUser(ActionEvent event) {
+	private void updateUser(ActionEvent event) {
 		// Retrieve entered username, password, firstname and lastname
 		//boolean result;
 
@@ -105,7 +105,7 @@ public class UpdateprofileController {
 
 
 	@FXML
-	public void movetoDashboardPage() {
+	private void movetoDashboardPage() {
 		dashboardScene dashboardScene = new dashboardScene(primaryStage);
 		primaryStage.setTitle(dashboardScene.getTitle());
 		primaryStage.setScene(dashboardScene.getScene(usernamefromDashboard));

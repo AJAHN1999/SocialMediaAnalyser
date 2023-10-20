@@ -80,7 +80,7 @@ public class VisualisationController {
 	}
 
 	@FXML
-	public void movetoDashboard(ActionEvent event) {
+	private void movetoDashboard(ActionEvent event) {
 		dashboardScene dashboardScene = new dashboardScene(primaryStage);
 		primaryStage.setTitle(dashboardScene.getTitle());
 		primaryStage.setScene(dashboardScene.getScene(userfromDashboard));

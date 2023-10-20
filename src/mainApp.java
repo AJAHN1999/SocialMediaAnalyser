@@ -15,7 +15,7 @@ public class mainApp extends Application {
 
 		primaryStage.setTitle(loginPageScene.getTitle());
 		primaryStage.setScene(loginPageScene.getScene());
-
+		primaryStage.setResizable(false);
 		primaryStage.show();
 
 	}

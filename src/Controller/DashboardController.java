@@ -134,7 +134,7 @@ public class DashboardController {
 	}
 
 	@FXML
-	public void movetoDataVisualisation(ActionEvent event) {	//data visualisation button click triggers the pie chart in the next scene
+	private void movetoDataVisualisation(ActionEvent event) {	//data visualisation button click triggers the pie chart in the next scene
 		DataVisualisationScene DataScene = new DataVisualisationScene(primaryStage);
 		primaryStage.setTitle(DataScene.getTitle());
 		primaryStage.setScene(DataScene.getScene(user));

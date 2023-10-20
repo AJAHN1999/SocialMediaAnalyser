@@ -48,7 +48,7 @@ public class RegistrationController {
 	}
 
 	@FXML 
-	public void addtoDatabase(ActionEvent event) throws SQLException {
+	private void addtoDatabase(ActionEvent event) throws SQLException {
 		// Retrieve entered username, password, firstname and lastname
 		boolean result;
 		try {

@@ -44,7 +44,7 @@ public class LoginPageController {
 	}
 
 	@FXML
-	public void loginUser(ActionEvent event) throws SQLException {
+	private void loginUser(ActionEvent event) throws SQLException {
 
 		// Retrieve entered username and password
 		try {

@@ -24,7 +24,7 @@ public class VIPController {
 	}
 
 	@FXML
-	public void yesVIP(ActionEvent event) {//handles the Yes button in the prompt box 
+	private void yesVIP(ActionEvent event) {//handles the Yes button in the prompt box 
 		try {
 			DatabaseUtility.updateUser(userfromDashboard);//changes the user's status to VIP in database.
 			alerts.alerts.VIPuserAlert();
@@ -34,7 +34,7 @@ public class VIPController {
 	}
 
 	@FXML
-	public void noVIP(ActionEvent event) {// takes the user back to dashboard.
+	private void noVIP(ActionEvent event) {// takes the user back to dashboard.
 		movetoDashboardPage();
 	}
 	public void movetoDashboardPage() {

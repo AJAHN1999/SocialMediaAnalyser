@@ -135,8 +135,9 @@ public class DatabaseUtilityPosts {
 	public static void exportPostToCSV(posts post, File selectedFile) {
 		try (FileWriter fileWriter = new FileWriter(selectedFile)) {
 			// Write CSV header
-			fileWriter.write("ID,author,content,likes,shares,date-time,userId\n");
+			fileWriter.write("ID,content,author,likes,shares,date-time,userId\n");
 			// Write post data to the CSV file
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm");
 			String csvRow = String.format(
 					"%d,%s,%s,%d,%d,%s,%d%n",
 					post.getPostID(),
@@ -144,13 +145,15 @@ public class DatabaseUtilityPosts {
 					post.getAuthor(),
 					post.getLikes(),
 					post.getShares(),
-					post.getDateTime(),
+					formatter.format(post.getDateTime()),
 					post.getAuthorID()
 					);
 			fileWriter.write(csvRow);
 		}catch (IOException e) {
 			e.printStackTrace();}
 	}
+	
+	
 
 }
 

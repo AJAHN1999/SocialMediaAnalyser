@@ -134,7 +134,7 @@ public class RetrievePostController {
 	/*
 	 * This event handler will take in number of posts from the user and uses it */
 	@FXML
-	public void retrievetopNPosts(ActionEvent event) {
+	private void retrievetopNPosts(ActionEvent event) {
 		try {
 			int numberofPosts = Integer.parseInt(Nposts.getText());
 			String comboBoxValue = combobox.getValue().toString();
@@ -155,7 +155,7 @@ public class RetrievePostController {
 	}
 
 	@FXML
-	public void exportPost(ActionEvent event) {//handles the export button
+	private void exportPost(ActionEvent event) {//handles the export button
 		try {
 			int postIdInput = Integer.parseInt(postId.getText());//input for export is taken from the user through text field.
 			posts retrievedPost = DatabaseUtilityPosts.retrievePostFromDB(userfromDashboard,postIdInput);
