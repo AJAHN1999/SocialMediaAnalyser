@@ -2,8 +2,8 @@ package View;
 
 import java.io.IOException;
 
-import Controller.addPostController;
-import Controller.retrievePostController;
+import Controller.AddPostController;
+import Controller.RetrievePostController;
 import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,7 +43,7 @@ public class retrievePostScene {
 			e.printStackTrace();
 		}
 		
-		retrievePostController controller = loader.getController();
+		RetrievePostController controller = loader.getController();
 		controller.senduser(user);
 		controller.setPrimaryStage(primaryStage);
 		// create a scene

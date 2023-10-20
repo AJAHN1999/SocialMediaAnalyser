@@ -5,13 +5,13 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.sql.SQLException;
 
-import Database.dbutility;
+import Database.DatabaseUtility;
 import Model.users;
 import View.dashboardScene;
 import View.loginPageScene;
 import View.registrationPageScene;
 import customExceptions.UsernameExistsException;
-import customExceptions.emptyFieldException;
+import customExceptions.EmptyFieldException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import alerts.alerts;
 
-public class updateprofileController {
+public class UpdateprofileController {
 
 	private Stage primaryStage;
 
@@ -51,7 +51,7 @@ public class updateprofileController {
 		lastnameUF.setText("");
 		passwordUF.setText("");
 	}
-	
+
 
 	public void  senduser(users user) {
 		usernamefromDashboard = user;	
@@ -64,7 +64,7 @@ public class updateprofileController {
 	public void updateUser(ActionEvent event) {
 		// Retrieve entered username, password, firstname and lastname
 		//boolean result;
-		
+
 		try {
 			String userName = usernameUF.getText();
 			String firstname = firstnameUF.getText();
@@ -72,11 +72,11 @@ public class updateprofileController {
 			String password = passwordUF.getText();
 
 			if(userName.isEmpty()||firstname.isEmpty()||lastname.isEmpty()||password.isEmpty()) {
-				throw new emptyFieldException();
+				throw new EmptyFieldException();
 			}
 			else {
-				
-				users userafterUpdate = dbutility.updateUser(usernamefromDashboard,userName,firstname,lastname,password);
+
+				users userafterUpdate = DatabaseUtility.updateUser(usernamefromDashboard,userName,firstname,lastname,password);
 				if (userafterUpdate!= null){
 					alerts.userUpdatedAlert();
 					//change scene to dashboard
@@ -88,7 +88,7 @@ public class updateprofileController {
 				}
 				// if result is true then showupdate alert and move back to dashboard.
 			}
-		}catch(emptyFieldException e) {
+		}catch(EmptyFieldException e) {
 			//result = false;
 			alerts.emptyFieldsAlert();
 		} catch (UsernameExistsException e) {

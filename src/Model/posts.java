@@ -2,6 +2,11 @@ package Model;
 
 import java.time.LocalDateTime;
 
+/**
+ * The `posts` class represents a post in the system.
+ */
+
+
 public class posts { //Post class to create post objects
 	// Attributes of each post
 	private int postID;
@@ -22,28 +27,18 @@ public class posts { //Post class to create post objects
 		this.dateTime = dateTime;
 
 	}
-	
-	 public posts(int postID, int authorID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
-	        this.postID = postID;
-	        this.authorID = authorID;
-	        this.content = content;
-	        this.author = author;
-	        this.likes = likes;
-	        this.shares = shares;
-	        this.dateTime = dateTime;
-	    }
-//	 public posts(int authorID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
-//	        this.postID = postID;
-//	        this.authorID = authorID;
-//	        this.content = content;
-//	        this.author = author;
-//	        this.likes = likes;
-//	        this.shares = shares;
-//	        this.dateTime = dateTime;
-//	    }
 
-	// Methods to retrieve information about post(getter methods)
+	public posts(int postID, int authorID, String content, String author, int likes, int shares, LocalDateTime dateTime) {
+		this.postID = postID;
+		this.authorID = authorID;
+		this.content = content;
+		this.author = author;
+		this.likes = likes;
+		this.shares = shares;
+		this.dateTime = dateTime;
+	}
 
+	// Getters and setters for class attributes
 	public String getContent() {
 		return content;
 	}
@@ -79,8 +74,7 @@ public class posts { //Post class to create post objects
 	public void setAuthorID(int authorID) {
 		this.authorID = authorID;
 	}
-	
+
 
 }
 
-	

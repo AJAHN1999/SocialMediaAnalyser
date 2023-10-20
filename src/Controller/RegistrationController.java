@@ -1,18 +1,18 @@
 package Controller;
 
 import java.sql.SQLException;
-import Database.dbutility;
+import Database.DatabaseUtility;
 import Model.users;
 import View.loginPageScene;
 import customExceptions.UsernameExistsException;
-import customExceptions.emptyFieldException;
+import customExceptions.EmptyFieldException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import alerts.alerts;
 
-public class registrationController {
+public class RegistrationController {
 
 	private Stage primaryStage;
 
@@ -35,7 +35,7 @@ public class registrationController {
 		this.primaryStage = primaryStage;
 	}
 
-	private void setEmptyFields() {
+	private void setEmptyFields() {//sets fields to empty when called
 		UsernameRegistration.setText("");
 		firstName.setText("");
 		lastName.setText("");
@@ -43,7 +43,7 @@ public class registrationController {
 	}
 
 	@FXML
-	public void movetoLogin(ActionEvent event) {
+	public void movetoLogin(ActionEvent event) {//logout  button action event which takes you back to loginpage
 		movetoLoginPage();
 	}
 
@@ -58,18 +58,18 @@ public class registrationController {
 			String password = passwordR.getText();
 
 			if(userName.isEmpty()||firstname.isEmpty()||lastname.isEmpty()||password.isEmpty()) {
-				throw new emptyFieldException();
+				throw new EmptyFieldException();
 			}
 			else {
 				users user = new users(userName,firstname,lastname,password);
-				result = dbutility.addUser(user);
+				result = DatabaseUtility.addUser(user);
 				if (result == true){
 					alerts.showUserAddedAlert();
 					//change scene to dashboard
-					movetoLoginPage();}
+					movetoLoginPage();}//move to login once registered.
 				else {throw new UsernameExistsException();}
 			}
-		}catch(emptyFieldException e) {
+		}catch(EmptyFieldException e) {
 			result = false;
 			alerts.emptyFieldsAlert();
 		} catch (customExceptions.UsernameExistsException e) {

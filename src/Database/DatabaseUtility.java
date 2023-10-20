@@ -5,10 +5,19 @@ import java.sql.*;
 import Model.users;
 import alerts.alerts;
 
+/*
+ * The DatabaseUtility class is the main access point for accessing the Database's "users" table.
+ * All the controllers and its action events will correspond to its relevant method in this class.
+ * All the methods of this class have been made static so that they can be easily accessed 
+ * in various controller classes without having to create an object everytime we need to utilise its functions.
+ */
 
-public class dbutility {
+public class DatabaseUtility {
 
 
+	/*
+	 * This method is used to authenticate the user and retrieve the user object(if it exists)
+	 * this user object is used throughout the application for other features*/
 	public static users authenticate(String username, String password) throws SQLException {
 		Connection con = databaseConnection.getConnection();
 		try{
@@ -30,9 +39,9 @@ public class dbutility {
 			users user = new users(userId,usernameR,firstnameR, lastnameR, passwordR,isVIP);//retrieveing a user object
 			System.out.println(usernameR);
 			System.out.println(passwordR);
-			resultSet.close();
+			//resultSet.close();
 			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-				
+
 				con.close();
 				return user;
 			}
@@ -42,16 +51,20 @@ public class dbutility {
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			System.out.println("nope");
 			con.close();
 			return null;
 		} finally {
-			con.close();}
+			con.close();
+		}
 	}
 
+	/*This method is primarily used with the registration controller class, where the user is added to the database
+	 * Inside this class the "userExists" method is used to check if the username exists already in the database*/
 	public static boolean addUser(users newUser) throws UsernameExistsException, SQLException {
+
 		String insertQuery = "INSERT INTO users (username, firstname, lastname, password, isVIP) VALUES (?, ?, ?, ?, ?)";
 		Connection con= databaseConnection.getConnection();
+
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
 			preparedStatement.setString(1, newUser.getUsername());
@@ -59,10 +72,9 @@ public class dbutility {
 			preparedStatement.setString(3, newUser.getLastname());
 			preparedStatement.setString(4, newUser.getPassword());
 			preparedStatement.setLong(5, newUser.getIsVIP());			
-			System.out.println("reached before execute");
 			if(UserExists(newUser.getUsername(),con)) {
-			con.close();	
-			return false;
+				con.close();	
+				return false;
 			}
 			else {preparedStatement.executeUpdate();con.close();return true; }
 
@@ -78,17 +90,16 @@ public class dbutility {
 
 
 
-
+	/*This method is used primarily with update profile functionality(inside the UpdateProfileController)
+	 *  where the user details are updated*/
 	public static users updateUser(users user,String newname,String firstname, String lastname, String password)throws UsernameExistsException,SQLException{
-		//String usernameDB = username(username);
 		String insertQuery = "UPDATE users SET username = ?, firstname = ?,lastname = ? , password =? WHERE username = ? ";
 		String insertUserQuery = "UPDATE users SET  firstname = ?,lastname = ? , password =? WHERE username = ? ";
 		Connection con = databaseConnection.getConnection();
 		try {
-			if(!UserExists(newname,con)) {
+			if(!UserExists(newname,con)) {														//checks if the username exists in the database
 				System.out.println("before insertquery inside check user exists");	
-				PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
-				System.out.println("reached inside if block of checkuserexists");
+				PreparedStatement preparedStatement = con.prepareStatement(insertQuery);	
 				preparedStatement.setString(1, newname);
 				preparedStatement.setString(2, firstname);
 				preparedStatement.setString(3, lastname);
@@ -101,25 +112,22 @@ public class dbutility {
 				//return true;
 				return userNew;
 			}
-			else if(newname.equals(user.getUsername())) {
-				System.out.println("reached elseif loggedin name == username");	
+			else if(newname.equals(user.getUsername())) {//if new username is same as the existing user name
 				PreparedStatement preparedStatement = con.prepareStatement(insertUserQuery);
 				preparedStatement.setString(1, firstname);
 				preparedStatement.setString(2, lastname);
 				preparedStatement.setString(3, password);
 				preparedStatement.setString(4, newname);
-				preparedStatement.executeUpdate();
-				//System.out.println(rowsAffected);		
+				preparedStatement.executeUpdate();	
 				users userNew = retrieveUser(user.getUsername(),firstname,lastname,password,con);
 				con.close();
 				return userNew;
 				//return true;
 			}
 			else {
-				
+
 				con.close();
-				throw new UsernameExistsException();	
-				//return false;			
+				throw new UsernameExistsException();				
 			}
 		}
 		catch(UsernameExistsException e) {
@@ -127,17 +135,20 @@ public class dbutility {
 			alerts.UserExistsAlert();	
 			con.close();
 			return null;
-			//return false;
+
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 			con.close();
-			//return false;
+
 			return null;
 		}finally {
 			con.close();}
 	}
+
 	
+	/*This method is called when the current loggedin User opts for the VIP functionality, this will set the VIP to 1
+	 * making him a VIP */
 	public static boolean updateUser(users user) throws SQLException {
 		String updateVIPQuery = "UPDATE users SET isVIP = 1  WHERE userId = ?";
 		Connection con = databaseConnection.getConnection();
@@ -151,55 +162,48 @@ public class dbutility {
 		finally {con.close();}
 	}
 
+	
+	/*This method is used within the other DatabaseUtility class methods to check if a user with the username 
+	 * exists , and then make changes in the database. This acts like a helper method.*/
 	public static boolean UserExists(String newname, Connection con) throws SQLException {
 		String insertQuery = "SELECT username FROM users WHERE username = ?";
-		//Connection con = databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
 			preparedStatement.setString(1, newname);
 			System.out.println("before resultset");
-			
+
 			ResultSet resultSet1 = preparedStatement.executeQuery();// if resultset object isn't returning anything it means there is no such usrname,will be
 			//caught by the sqlexception, then, return true in 
-			System.out.println("retrieved username from checkUserExists:"+resultSet1.getString("username"));
 			if(resultSet1.next()) {
-				//con.close();
 				return true;//user exists	
 			}	
 			else {
 				System.out.println("user doesn't exist");
-				//con.close();
 				return false;
 
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
-			//con.close();
+
 			return false;}//user doesnt exists
-//		}finally {
-//			con.close();}
-//
-//
+
 	}
-	
+
 	public static users retrieveUser(String username , String firstname, String lastname, String password,Connection con) throws SQLException {
 		String retrieveQuery = "SELECT userid, username,firstname,lastname,password,isVIP  FROM users WHERE username = ?";
-		//Connection con = databaseConnection.getConnection();
 		try {
-		PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
-		preparedStatement.setString(1, username);
-		ResultSet resultset = preparedStatement.executeQuery();
-		if(resultset.next())
-		{		//con.close();
+			PreparedStatement preparedStatement = con.prepareStatement(retrieveQuery);
+			preparedStatement.setString(1, username);
+			ResultSet resultset = preparedStatement.executeQuery();
+			if(resultset.next())
+			{		
 				return new users(resultset.getInt("userid"), resultset.getString("username"),resultset.getString("firstname"),resultset.getString("lastname"),resultset.getString("password"),resultset.getInt("isVIP"));
-	}
-		else {
-			//con.close();
-			return null;}
+			}
+			else {
+				return null;}
 		}catch(SQLException e) {
-		e.printStackTrace();
-		//con.close();
-		return null;}
+			e.printStackTrace();
+			return null;}
 	}
 
 

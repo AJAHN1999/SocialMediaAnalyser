@@ -15,14 +15,14 @@ import Model.users;
 import alerts.alerts;
 
 
-public class FileReader3000 {
+public class FileImporter {
 
 	String line = "";
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm");
 	private users user;
 	private File file;
 	
-	public FileReader3000(users user, File file) {
+	public FileImporter(users user, File file) {
 		this.user = user;
 		this.file = file;
 	}
@@ -35,7 +35,7 @@ public class FileReader3000 {
 				String[] post = line.split(",");
 				try {
 				posts p1 = new posts(post[2],post[1],Integer.parseInt(post[3]),Integer.parseInt(post[4]),LocalDateTime.parse(post[5], formatter));
-				dbutilityposts.addPosttoDB(this.user, p1);		}catch(NumberFormatException e) {continue;}
+				DatabaseUtilityPosts.addPosttoDB(this.user, p1);		}catch(NumberFormatException e) {continue;}
 				catch(DateTimeParseException e){e.printStackTrace();continue; }
 			}
 			alerts.bulkImportSuccessfullAlert();

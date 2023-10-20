@@ -3,7 +3,7 @@ package View;
 import java.io.IOException;
 
 import Controller.VIPController;
-import Controller.retrievePostController;
+import Controller.RetrievePostController;
 import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

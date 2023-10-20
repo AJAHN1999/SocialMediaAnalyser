@@ -15,9 +15,11 @@ import Model.posts;
 //import Model.posts;
 import Model.users;
 
-public class dbutilityposts {
+public class DatabaseUtilityPosts {
+
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm");
+	
 	public static boolean addPosttoDB(users user, posts post ) throws SQLException {
 		String insertQuery = "INSERT INTO posts (author, content, likes, shares, dateTime, userId) VALUES (?, ?, ?, ?,?,?)";
 		Connection con = databaseConnection.getConnection();
@@ -32,10 +34,10 @@ public class dbutilityposts {
 			int rowsaffected = preparedStatement.executeUpdate();
 			if (rowsaffected == 1) {con.close(); return true;}
 			else {con.close(); throw new SQLException();}
-			}catch(SQLException e) {e.printStackTrace();con.close(); return false;}
+		}catch(SQLException e) {e.printStackTrace();con.close(); return false;}
 		finally {con.close();}
-}
-	
+	}
+
 
 	public static ArrayList<posts> retrieveNpostsFromDB(users user, int N, String type) throws SQLException {
 		ArrayList<posts> topNposts = new ArrayList<posts>();
@@ -63,33 +65,33 @@ public class dbutilityposts {
 				ResultSet resultset = preparedStatement.executeQuery();			
 				while(resultset.next()) {
 					topNposts.add( new posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));				
-		}		
+				}		
 				return topNposts;
-	}catch(SQLException e){e.printStackTrace();return null;}
+			}catch(SQLException e){e.printStackTrace();return null;}
 			finally {con.close();}
 		}
 		else {return null;}
 	}
-	
-	
-	
-	
+
+
+
+
 	public static posts retrievePostFromDB(users user, int postId) throws SQLException {
-		String retrievePostQuery = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts WHERE postId = ? AND userid = ?";
+		String retrievePostQuery = "SELECT postid,author,content,likes,shares,dateTime,userId FROM posts WHERE postId = ?";
 		Connection con = databaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(retrievePostQuery);
 			preparedStatement.setLong(1, postId);
-			preparedStatement.setLong(2, user.getUserid());
+			//preparedStatement.setLong(2, user.getUserid());
 			ResultSet resultset = preparedStatement.executeQuery();
 			if(resultset.next())
 			{
-				//con.close();
-					return new posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime")));
-		}
-			else {//con.close();
+
+				return new posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime")));
+			}
+			else {
 				return null;}	
-			}catch(SQLException e) { e.printStackTrace();return null;}
+		}catch(SQLException e) { e.printStackTrace();return null;}
 		finally {con.close();}
 	}
 
@@ -103,18 +105,18 @@ public class dbutilityposts {
 			ResultSet resultset = preparedStatement.executeQuery();
 			while(resultset.next())
 			{
-					posts.add(new  posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));
-		}
+				posts.add(new  posts(resultset.getInt("postid"),resultset.getInt("userId"),resultset.getString("content"), resultset.getString("author"),resultset.getInt("likes"),resultset.getInt("shares"),LocalDateTime.parse(resultset.getString("dateTime"))));
+			}
 			con.close();
 			return posts;
 		}
-			catch(SQLException e) { e.printStackTrace();return null;}
+		catch(SQLException e) { e.printStackTrace();return null;}
 		finally {con.close();}
 	}
-		
-	
-	
-	
+
+
+
+
 	public static boolean deletePost(int postId, users user) throws SQLException {
 		String deletePostQuery = "DELETE FROM posts WHERE postId = ? AND userid = ?";
 		Connection con = databaseConnection.getConnection();
@@ -125,30 +127,30 @@ public class dbutilityposts {
 			int result = preparedStatement.executeUpdate();
 			if(result == 1) {return true;}
 			else { return false;}
-			
-	}catch(SQLException e) {e.printStackTrace();return false;}
+
+		}catch(SQLException e) {e.printStackTrace();return false;}
 		finally {con.close();}	
 	}
-	
+
 	public static void exportPostToCSV(posts post, File selectedFile) {
-		 try (FileWriter fileWriter = new FileWriter(selectedFile)) {
-             // Write CSV header
-             fileWriter.write("ID,author,content,likes,shares,date-time,userId\n");
-          // Write post data to the CSV file
-             String csvRow = String.format(
-                 "%d,%s,%s,%d,%d,%s,%d%n",
-                 post.getPostID(),
-                 post.getContent(),
-                 post.getAuthor(),
-                 post.getLikes(),
-                 post.getShares(),
-                 post.getDateTime(),
-                 post.getAuthorID()
-             );
-             fileWriter.write(csvRow);
-	}catch (IOException e) {
-        e.printStackTrace();}
+		try (FileWriter fileWriter = new FileWriter(selectedFile)) {
+			// Write CSV header
+			fileWriter.write("ID,author,content,likes,shares,date-time,userId\n");
+			// Write post data to the CSV file
+			String csvRow = String.format(
+					"%d,%s,%s,%d,%d,%s,%d%n",
+					post.getPostID(),
+					post.getContent(),
+					post.getAuthor(),
+					post.getLikes(),
+					post.getShares(),
+					post.getDateTime(),
+					post.getAuthorID()
+					);
+			fileWriter.write(csvRow);
+		}catch (IOException e) {
+			e.printStackTrace();}
 	}
-	
+
 }
 

@@ -1,40 +1,81 @@
-//
-//
-//import static org.junit.Assert.*;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//
-//import java.io.FileNotFoundException;
-//import java.io.IOException;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
-//import java.util.HashMap;
-//import java.util.List;
-//
-//import org.junit.Test;
-//
-//public class SocialMediaAnalyzerTest {
-//
-//	
-//
-//	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm");
-//	Post p1 = new Post(100,"dsfsdf","dsfsdfdsf",23213,232,LocalDateTime.parse("12/12/2022 13:22",formatter));
-//	Post p2 = new Post(123,"sdfsdfds","sdfsdfsd",3432,32423,LocalDateTime.parse("12/12/2022 13:22",formatter));
-//	Post p3 = new Post(1234,"sdfsdfds","sdfsdfsd",34324,324235,LocalDateTime.parse("12/12/2022 13:22",formatter));
-//	Post p4 = new Post(1,"sdfdfds","sdfsdfsd",34324,324235,LocalDateTime.parse("12/12/2022 13:22",formatter));
-//	
-//	HashMap<Integer, Post> posts1Db = new HashMap<Integer, Post>();
-//	socialMediaAnalyzer s1 = new socialMediaAnalyzer();
-//
-//	@Test
-//	public void testAddPost() {
-//		//System.out.println("Testing if posts are getting added properly...");
-//		s1.addPost(100, p1);
-//		s1.addPost(123, p2);
-//		assertEquals(p1,socialMediaAnalyzer.postsDb.get(100));
-//		assertEquals(p2,socialMediaAnalyzer.postsDb.get(123));
-//		//System.out.println("AddPost method working!"+"\n");
-//	}
-//	
+
+
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import org.junit.Test;
+import Database.DatabaseUtility;
+import Model.users;
+import customExceptions.UsernameExistsException;
+
+public class SocialMediaAnalyzerTest {
+
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm");
+
+	@Test
+	public void testAuthenticate() {
+		users user = new users(1,"ajahnt","ajju","bhai","ajahn",1);
+		users retrievedUser;
+		try {
+			retrievedUser = DatabaseUtility.authenticate("ajahnt", "ajahn");
+			assertEquals(user.getUserid(), retrievedUser.getUserid());
+			assertEquals(user.getPassword(),retrievedUser.getPassword());
+		}catch(SQLException e) {System.out.println("couldn't retrieve user , test case failed");};
+	}
+
+
+	@Test
+	public void testRegistration() {
+		users userValid = new users("srinivas reddy","srinivas","reddy","srinivasreddy");//will fail when test case is run 
+		//current user in test case is added to DB.
+		try {
+			assertTrue(DatabaseUtility.addUser(userValid));
+		} catch (UsernameExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testUserVIPUpdate() {
+		users userTest;
+		try {
+			userTest = DatabaseUtility.authenticate("ram reddy", "ramreddy");
+			boolean result = DatabaseUtility.updateUser(userTest);
+			assertTrue(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void testUpdateProfile() {
+		try {
+			users user = DatabaseUtility.authenticate("ajahnt", "ajahn");
+			users  updatedUser = DatabaseUtility.updateUser(user, "ajahnt", "aj","tund" , "ajahn");
+			boolean result = (!user.getFirstname().equals(updatedUser.getFirstname()));
+			assertFalse(result);
+
+		}catch(UsernameExistsException e) {}
+		catch(SQLException e ) {e.printStackTrace();}
+	}
+
+
+
+	
+
+
+}	
+
+
+
 //	@Test
 //	public void testDeletePost() {
 //		//System.out.println("Testing if posts are getting deleted properly...");
@@ -97,13 +138,7 @@
 //		}
 //	}
 //		
-//	@Test
-//	public void testFileReader() {//testing if file has a attribute csv value like date and time missing
-//		FileReader3000 f1 = new FileReader3000();
-//		f1.path= "test.csv";
-//		assertThrows(IOException.class,()-> f1.readFile(),"");
-//	
-//	}
+
 //	
 //	@Test
 //	public void testEmptyFileReader(){ // testing if file is not found.
@@ -111,4 +146,4 @@
 //		f1.path = "test1.csv";
 //		assertThrows(FileNotFoundException.class , ()-> f1.readFile(),"");
 //	}
-//}
+

@@ -2,7 +2,7 @@ package View;
 
 
 import java.io.IOException;
-import Controller.updateprofileController;
+import Controller.UpdateprofileController;
 import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,7 +42,7 @@ public class updateProfileScene {
 			e.printStackTrace();
 		}
 		
-		updateprofileController controller = loader.getController();
+		UpdateprofileController controller = loader.getController();
 		controller.setPrimaryStage(primaryStage);
 		controller.senduser(user);
 		

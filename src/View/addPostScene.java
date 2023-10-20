@@ -2,7 +2,7 @@ package View;
 
 import java.io.IOException;
 
-import Controller.addPostController;
+import Controller.AddPostController;
 import Model.users;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,7 +42,7 @@ public class addPostScene {
 			e.printStackTrace();
 		}
 		
-		addPostController controller = loader.getController();
+		AddPostController controller = loader.getController();
 		controller.setPrimaryStage(primaryStage);
 		controller.senduser(user);
 		// create a scene

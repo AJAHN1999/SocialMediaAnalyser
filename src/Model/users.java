@@ -1,5 +1,10 @@
 package Model;
 
+/**
+ * The `users` class represents a user in the system.
+ */
+
+
 public class users {
 	private int userid;
 	private String username;
@@ -7,38 +12,38 @@ public class users {
 	private String firstname;
 	private String lastname;
 	private int isVIP;
-	
+
 	//constructor
 	public users( String username, String firstname, String lastname, String password) {
 		this.username = username;
 		this.password = password;
 		this.firstname= firstname;
 		this.lastname= lastname;
-		
+
 	}
-	
+
 	//constructor
-		public users(int userid, String username, String firstname, String lastname, String password) {
-			this.userid = userid;
-			this.username = username;
-			this.password = password;
-			this.firstname= firstname;
-			this.lastname= lastname;
-			
-		}
-		
-		public users(int userid, String username, String firstname, String lastname, String password, int isVIP) {
-			this.userid = userid;
-			this.username = username;
-			this.password = password;
-			this.firstname= firstname;
-			this.lastname= lastname;
-			this.isVIP = isVIP;
-			
-		}
-	
-	
-	
+	public users(int userid, String username, String firstname, String lastname, String password) {
+		this.userid = userid;
+		this.username = username;
+		this.password = password;
+		this.firstname= firstname;
+		this.lastname= lastname;
+
+	}
+
+	public users(int userid, String username, String firstname, String lastname, String password, int isVIP) {
+		this.userid = userid;
+		this.username = username;
+		this.password = password;
+		this.firstname= firstname;
+		this.lastname= lastname;
+		this.isVIP = isVIP;
+
+	}
+
+
+	// Getters and setters for class attributes
 	public String getUsername() {
 		return username;
 	}
@@ -86,6 +91,6 @@ public class users {
 	public void setIsVIP(int isVIP) {
 		this.isVIP = isVIP;
 	}
-	
-	
+
+
 }
